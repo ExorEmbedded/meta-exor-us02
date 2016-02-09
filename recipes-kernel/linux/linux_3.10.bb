@@ -25,6 +25,8 @@ KERNEL_DEVICETREE_usom02 = "socfpga_cyclone5.dtb"
 
 DTB_OUTPUT = "arch/arm/boot/dts"
 
+KERNEL_REMOVE_DEPLOYED ?= "${KERNEL_IMAGETYPE} *.dtb"
+
 do_deploy_append() {
    install -d "${DEPLOYDIR}"
    install -m 0644 "${B}/${KERNEL_OUTPUT}" "${DEPLOYDIR}"
@@ -36,8 +38,7 @@ do_deploy_append() {
    mv ${KERNEL_DEVICETREE} socfpga.dtb
    tar czvf "us02-kernel.tar.gz" "${KERNEL_IMAGETYPE}" socfpga.dtb
 
-   rm -rf  ${KERNEL_IMAGETYPE}*
-   rm -rf *.dtb
+   rm -rf ${KERNEL_REMOVE_DEPLOYED}
 }
 
 RDEPENDS_kernel-base = ""
